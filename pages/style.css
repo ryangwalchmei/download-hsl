@@ -1,0 +1,101 @@
+.containermain {
+  margin-top: 2.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.search {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.searchbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.search-bar-input {
+  width: 100%;
+  max-width: 400px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.search-bar-input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+  outline: none;
+}
+
+.content {
+  display: flex;
+  width: 50rem;
+  max-height: 50rem;
+}
+
+.recentContentDownloaded {
+  width: 50rem;
+  padding-left: 5rem;
+  padding-right: 5rem;
+}
+
+.scrollableListDialog {
+  background-color: color(srgb 0 0 0 / 0.02);
+
+  /* border: 1px solid; */
+  border-radius: 12px;
+  padding-top: 10px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-bottom: 1rem;
+}
+
+.listContainerContentScrollableListDialog {
+  height: 20rem;
+}
+
+.listgroupContainerContent {
+  border: 1px solid;
+  display: flex;
+  width: auto;
+}
+
+.contentScrollableListDialog {
+}
+
+.listItem {
+  display: flex;
+  width: 38em;
+  flex-direction: row;
+}
+
+.stateLayer {
+  width: 38rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.optionsTrailingElement {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.videoinfodataBox {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.viewVideoSelected {
+  align-content: center;
+}
