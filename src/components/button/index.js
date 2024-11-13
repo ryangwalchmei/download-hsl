@@ -1,13 +1,13 @@
 export default function Button({
   children,
-  // onClick,
+  onClick,
   // disable
 }) {
   return (
     <>
       <button
         className="button btn-transparent"
-        // onClick={onClick}
+        onClick={onClick}
         // disabled={disable}
         type="button"
       >

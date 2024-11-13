@@ -1,10 +1,10 @@
-export default function SearchBar({ text }) {
+export default function SearchBar({ text, state, setState }) {
   return (
     <div className="searchbar">
       <input
         type="text"
-        // value={searchTerm}
-        // onChange={handleInputChange}
+        value={state}
+        onChange={e => setState(e.target.value)}
         placeholder={text}
         className="search-bar-input"
       />
