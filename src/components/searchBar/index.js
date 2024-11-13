@@ -4,7 +4,7 @@ export default function SearchBar({ text, state, setState }) {
       <input
         type="text"
         value={state}
-        onChange={e => setState(e.target.value)}
+        onChange={(e) => setState(e.target.value)}
         placeholder={text}
         className="search-bar-input"
       />

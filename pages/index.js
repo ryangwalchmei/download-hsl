@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 import SearchBar from "../src/components/searchBar";
 import Image from "next/image";
 import { FaFolder, FaPlay, FaCheck } from "react-icons/fa";
@@ -6,28 +6,30 @@ import image1 from "../public/assets/img/image 1.png";
 import Button from "../src/components/button";
 
 export default function Index() {
-  const [nameFile, setNameFile] = useState('');
-  const [urlVideoInput, setUrlVideoInput] = useState('');
-  const [urlVideoOutput, setUrlVideoOutput] = useState('');
+  const [nameFile, setNameFile] = useState("");
+  const [urlVideoInput, setUrlVideoInput] = useState("");
+  const [urlVideoOutput, setUrlVideoOutput] = useState("");
 
   const downloadVideo = async () => {
     const m3u8Url = urlVideoInput;
-    const response = await fetch(`/api/download?m3u8Url=${encodeURIComponent(m3u8Url)}&nameFile=${nameFile}`);
+    const response = await fetch(
+      `/api/download?m3u8Url=${encodeURIComponent(m3u8Url)}&nameFile=${nameFile}`,
+    );
 
     if (response.ok) {
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
 
-      const a = document.createElement('a');
+      const a = document.createElement("a");
       a.href = url;
       a.download = `${nameFile}.mp4`;
       document.body.appendChild(a);
       a.click();
       a.remove();
 
-      setUrlVideoOutput(url);  // Atualiza a URL para visualização do vídeo baixado
+      setUrlVideoOutput(url); // Atualiza a URL para visualização do vídeo baixado
     } else {
-      alert('Erro ao fazer o download do vídeo');
+      alert("Erro ao fazer o download do vídeo");
     }
   };
 
