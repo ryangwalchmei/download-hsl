@@ -1,50 +1,35 @@
 import { useState } from 'react';
 import SearchBar from "../src/components/searchBar";
-
 import Image from "next/image";
-
 import { FaFolder, FaPlay, FaCheck } from "react-icons/fa";
-
 import image1 from "../public/assets/img/image 1.png";
 import Button from "../src/components/button";
-import { downloadHSL } from '../src/robot/downloadHSL';
-import dynamic from 'next/dynamic';
 
 export default function Index() {
   const [nameFile, setNameFile] = useState('');
   const [urlVideoInput, setUrlVideoInput] = useState('');
   const [urlVideoOutput, setUrlVideoOutput] = useState('');
 
-  async function Download() {
-    try {
-      const response = await fetch('/api/download', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          url: urlVideoInput,
-          outputFilename: 'video.mp4'
-        })
-      });
+  const downloadVideo = async () => {
+    const m3u8Url = urlVideoInput;
+    const response = await fetch(`/api/download?m3u8Url=${encodeURIComponent(m3u8Url)}&nameFile=${nameFile}`);
 
-      if (response.ok) {
-        const blob = await response.blob();  // Converte a resposta em um Blob
-        const url = window.URL.createObjectURL(blob); // Cria um URL do Blob
-        const a = document.createElement('a'); // Cria um link temporário
-        a.href = url;
-        a.download = 'video.mp4'; // O nome do arquivo que será baixado
-        a.click();  // Dispara o download
-        window.URL.revokeObjectURL(url);  // Libera a URL criada
-      } else {
-        console.error('Erro no download:', response.statusText);
-      }
-    } catch (error) {
-      console.error('Erro ao fazer o download:', error);
+    if (response.ok) {
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${nameFile}.mp4`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+
+      setUrlVideoOutput(url);  // Atualiza a URL para visualização do vídeo baixado
+    } else {
+      alert('Erro ao fazer o download do vídeo');
     }
-  }
-
-
+  };
 
   return (
     <div className="containermain">
@@ -57,10 +42,10 @@ export default function Index() {
           />
           <SearchBar
             text="Cole o link do vídeo"
-            state={urlVideoInput} // Corrigido o erro de digitação: 'tate' para 'state'
+            state={urlVideoInput}
             setState={setUrlVideoInput}
           />
-          <Button onClick={Download}>Download</Button>
+          <Button onClick={downloadVideo}>Download</Button>
         </div>
         <div className="content">
           <div className="recentContentDownloaded">
@@ -92,7 +77,6 @@ export default function Index() {
                             </div>
                           </div>
                         </div>
-
                         <div className="optionsTrailingElement">
                           <FaFolder />
                           <FaPlay />
@@ -113,7 +97,7 @@ export default function Index() {
           </div>
           <div className="viewVideoSelected">
             {urlVideoOutput && (
-              <video controls width="850" height="430" alt="">
+              <video controls width="850" height="430">
                 <source src={urlVideoOutput} type="video/mp4" />
               </video>
             )}
