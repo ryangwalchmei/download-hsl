@@ -1,19 +1,53 @@
+import { useState } from "react";
 import SearchBar from "../src/components/searchBar";
-
 import Image from "next/image";
-
 import { FaFolder, FaPlay, FaCheck } from "react-icons/fa";
-
 import image1 from "../public/assets/img/image 1.png";
 import Button from "../src/components/button";
 
 export default function Index() {
+  const [nameFile, setNameFile] = useState("");
+  const [urlVideoInput, setUrlVideoInput] = useState("");
+  const [urlVideoOutput, setUrlVideoOutput] = useState("");
+
+  const downloadVideo = async () => {
+    const m3u8Url = urlVideoInput;
+    const response = await fetch(
+      `/api/download?m3u8Url=${encodeURIComponent(m3u8Url)}&nameFile=${nameFile}`,
+    );
+
+    if (response.ok) {
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${nameFile}.mp4`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+
+      setUrlVideoOutput(url); // Atualiza a URL para visualização do vídeo baixado
+    } else {
+      alert("Erro ao fazer o download do vídeo");
+    }
+  };
+
   return (
     <div className="containermain">
       <div className="container">
         <div className="search">
-          <SearchBar text="Nome do Vídeo" />
-          <SearchBar text="Cole o link do vídeo" />
+          <SearchBar
+            text="Nome do Vídeo"
+            state={nameFile}
+            setState={setNameFile}
+          />
+          <SearchBar
+            text="Cole o link do vídeo"
+            state={urlVideoInput}
+            setState={setUrlVideoInput}
+          />
+          <Button onClick={downloadVideo}>Download</Button>
         </div>
         <div className="content">
           <div className="recentContentDownloaded">
@@ -45,7 +79,6 @@ export default function Index() {
                             </div>
                           </div>
                         </div>
-
                         <div className="optionsTrailingElement">
                           <FaFolder />
                           <FaPlay />
@@ -65,9 +98,11 @@ export default function Index() {
             </div>
           </div>
           <div className="viewVideoSelected">
-            <video controls width="850" height="430" alt="">
-              <source src="/assets/img/sample.mp4" type="video/mp4" />
-            </video>
+            {urlVideoOutput && (
+              <video controls width="850" height="430">
+                <source src={urlVideoOutput} type="video/mp4" />
+              </video>
+            )}
           </div>
         </div>
       </div>
