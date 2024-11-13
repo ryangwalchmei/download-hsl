@@ -9,6 +9,9 @@
 }
 
 .search {
+  display: flex;
+  flex-direction: column;
+  width: 99vw;
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
@@ -107,6 +110,8 @@
 }
 
 .button {
+  width: max-content;
+  align-self: center;
   padding: 6px 12px;
   font-size: 16px;
   border: none;
