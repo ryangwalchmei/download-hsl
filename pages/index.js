@@ -5,6 +5,7 @@ import Image from "next/image";
 import { FaFolder, FaPlay, FaCheck } from "react-icons/fa";
 
 import image1 from "../public/assets/img/image 1.png";
+import Button from "../src/components/button";
 
 export default function Index() {
   return (
@@ -59,12 +60,12 @@ export default function Index() {
                 </div>
               </div>
               <div className="actions">
-                <button>Excluir</button>
+                <Button>Excluir</Button>
               </div>
             </div>
           </div>
           <div className="viewVideoSelected">
-            <video controls width="620" height="340" alt="">
+            <video controls width="850" height="430" alt="">
               <source src="/assets/img/sample.mp4" type="video/mp4" />
             </video>
           </div>
