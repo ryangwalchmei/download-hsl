@@ -9,6 +9,7 @@ export default function Index() {
   const [nameFile, setNameFile] = useState("");
   const [urlVideoInput, setUrlVideoInput] = useState("");
   const [urlVideoOutput, setUrlVideoOutput] = useState("");
+  const [videoKey, setVideoKey] = useState(0); // Novo estado para forçar atualização
 
   const downloadVideo = async () => {
     const m3u8Url = urlVideoInput;
@@ -18,6 +19,12 @@ export default function Index() {
 
     if (response.ok) {
       const blob = await response.blob();
+
+      // Revoga o URL anterior para evitar vazamento de memória
+      if (urlVideoOutput) {
+        window.URL.revokeObjectURL(urlVideoOutput);
+      }
+
       const url = window.URL.createObjectURL(blob);
 
       const a = document.createElement("a");
@@ -28,6 +35,7 @@ export default function Index() {
       a.remove();
 
       setUrlVideoOutput(url); // Atualiza a URL para visualização do vídeo baixado
+      setVideoKey(prevKey => prevKey + 1); // Atualiza a chave para forçar re-renderização
     } else {
       alert("Erro ao fazer o download do vídeo");
     }
@@ -99,7 +107,7 @@ export default function Index() {
           </div>
           <div className="viewVideoSelected">
             {urlVideoOutput && (
-              <video controls width="850" height="430">
+              <video key={videoKey} controls width="850" height="430">
                 <source src={urlVideoOutput} type="video/mp4" />
               </video>
             )}
